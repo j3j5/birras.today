@@ -347,6 +347,17 @@ class MySQL extends Grammar {
 	 * @param  Fluent  $column
 	 * @return string
 	 */
+	protected function type_tinyint(Fluent $column)
+	{
+		return 'TINYINT';
+	}
+
+	/**
+	 * Generate the data-type definition for an integer.
+	 *
+	 * @param  Fluent  $column
+	 * @return string
+	 */
 	protected function type_float(Fluent $column)
 	{
 		return 'FLOAT';

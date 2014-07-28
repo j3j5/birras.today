@@ -299,6 +299,18 @@ class Table {
 	}
 
 	/**
+	 * Add an integer column to the table.
+	 *
+	 * @param  string  $name
+	 * @param  bool    $increment
+	 * @return Fluent
+	 */
+	public function tinyint($name, $increment = false)
+	{
+		return $this->column(__FUNCTION__, compact('name', 'increment'));
+	}
+
+	/**
 	 * Add a float column to the table.
 	 *
 	 * @param  string  $name
