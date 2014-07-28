@@ -108,6 +108,61 @@ class Twitterapi extends Twitter {
 			}
 	}
 
+	public function get_friends() {
+		$friends = $this->get('friends/ids.json', array( 'screen_name' => 'birrastoday', 'count' => 5000 ));
+		if(isset($friends['ids'])) {
+			return $friends['ids'];
+		}
+		return array();
+	}
+
+	public function get_followers() {
+
+	}
+
+	public function post_tweet($text, $extra_options = array()) {
+		if(mb_strlen($text) > 140) {
+			$text = mb_substr(0, 137) . '...';
+		}
+
+		$options = array(
+			'status' => $text,
+		);
+		if(!empty($extra_options) && is_array($extra_options)) {
+			$options = array_merge($options, $extra_options);
+		}
+		$result = $this->post('statuses/update.json', $options);
+		if(!empty($result)) {
+			cli_print('Tweeted: ' . $options['status']);
+			return TRUE;
+		} else {
+			cli_print('Fail to reply.');
+			return FALSE;
+		}
+	}
+
+	public function post_dm($text, $to_user, $extra_options = array()) {
+		if(mb_strlen($text) > 140) {
+			$text = mb_substr(0, 137) . '...';
+		}
+
+		$options = array(
+			'text' => $text,
+			'user_id' => $to_user,
+		);
+		if(!empty($extra_options) && is_array($extra_options)) {
+			$options = array_merge($options, $extra_options);
+		}
+		$result = $this->post('direct_messages/new.json', $options);
+		if(!empty($result)) {
+			cli_print('DM to ' . $to_user . ': ' . $options['text']);
+			return TRUE;
+		} else {
+			cli_print('Fail to reply the DM.');
+			return FALSE;
+		}
+	}
+
 	/**
 	 * Make the actual request to Twitter.
 	 *
