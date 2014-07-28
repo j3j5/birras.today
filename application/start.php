@@ -172,3 +172,8 @@ if ( ! Request::cli() and Config::get('session.driver') !== '')
 {
 	Session::load();
 }
+
+
+function cli_print($text) {
+	echo date('Y-m-d H:i:s') . ": $text" . PHP_EOL;
+}
