@@ -90,7 +90,7 @@ class Twitterapi extends Twitter {
 			$params = $parameters[1];
 		}
 		if(empty($this->access_token)) {
-			debug('empty access token!');
+			cli_print('empty access token!');
 			return FALSE;
 		}
 		$this->default_options($params);
@@ -131,7 +131,7 @@ class Twitterapi extends Twitter {
 			$result = $request->execute();
 		} catch(\Exception $e) {
 			$result = FALSE;
-			debug($e->getMessage());
+			cli_print($e->getMessage());
 		}
 
 		if(empty($result)) {
