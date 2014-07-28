@@ -31,11 +31,11 @@
 |		});
 |
 */
-
-Route::get('/', function()
-{
-	return View::make('home.home');
-});
+Route::get('/', 'home@index');
+// Route::get('/', function()
+// {
+// 	return View::make('home.home');
+// });
 
 Route::get('login',array('before' => 'guest', function () {
 	return View::make('auth.login');
@@ -59,8 +59,7 @@ Route::post('register', array('before' => 'guest|csrf', function () {
 			'name' => Input::get('name'),
 			'email' => Input::get('email'),
 	));
-
-	return Redirect::to('/')->with('flash_notice', "Congrats, you have registered!")
+	return Redirect::to('/')->with('flash_notice', "Congrats, you have registered!");
 }));
 
 
