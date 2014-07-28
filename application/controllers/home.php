@@ -41,6 +41,9 @@ class Home_Controller extends Base_Controller {
 		    $view_appointments[] = array_merge($clean_app, $clean_place);
 		}
 
+		Asset::add('index', 'css/index.css');
+		Asset::add('piwik', 'js/piwik.js');
+
 		return View::make('home.index', array('appointments' => $view_appointments));
 	}
 
