@@ -8,6 +8,7 @@ class Twitter_Tasks {
 	protected $api;
 	protected $twitter_task;
 	protected $last_processed;
+	protected $user_key;
 
 	public function __construct() {
 		Bundle::start('oneauth');
@@ -33,58 +34,121 @@ class Twitter_Tasks {
 		return $twitter_event;
 	}
 
-	protected function extract_data_from_tweet($matches) {
-		$bar_name = $time = $map_link = '';
-		foreach($matches AS $index => $match) {
-			switch ($match) {
-				case 'comingto':
-					if(!empty($matches[$index+1])) {
-						$bar_name = $matches[$index+1];
-					} else {
-						$error = 'Empty location.';
-					}
-					break;
-				case 'time':
-					$timestamp = strtotime($matches[$index+1]);
-					if(!empty($timestamp)) {
-						$time = $timestamp;
-					} else {
-						$error = 'Not a valid datetime format.';
-					}
-					break;
-				case 'map':
-					///TODO: Check this is actually a valid URL
-					$map_link = $matches[$index+1];
-					break;
-				default:
-					break;
+	protected function process_message(&$mention, &$first, &$task) {
+		// Next call will retrieve from this last id on
+		if($first) {
+			$task->last_id = $mention['id_str'];
+			$task->save();
+			$first = FALSE;
+		}
+
+		// If the user is not on the allowd admins, ignore the mention
+		if(isset($mention['user']['screen_name'])) {
+			if(!in_array($mention['user']['id_str'], $this->allowed_people)) {
+				cli_print('User wants to add a mention but it\'s not allowed: ' . $mention['user']['screen_name']);
+				continue;
 			}
+		} else {
+			cli_print('Weird!! no user owning the mention?: ' . print_r($mention, TRUE));
+			continue;
 		}
-		if(!empty($bar_name) && !empty($time)) {
-			return array('bar_name' => $bar_name, 'time' => $time, 'map' => $map_link);
+
+		// Seems to be a request from a valid user, parse it
+		cli_print('Tweet received: ' . $mention['text']);
+		$data = Birras::process_message($mention, $this->twitter_task);
+
+		if(isset($data['bar_name'])) {
+			$data['message'] = $mention;
+			// There is an event to be added
+			$place = Place::where_name(trim($data['bar_name']))->first();
+			if(empty($place)) {
+				$place = $this->store_place($data);
+			}
+			///TODO: Check that there's not already an event today on the same place before adding
+			$data['place_id'] = $place->id;
+			$appointment = $this->store_appointment($data, $this->twitter_task);
+
+			if($appointment) {
+				// Reply to the user
+				$this->reply_to_event($data);
+			} else {
+				$data['error'] = "@" . $mention[$this->user_key]['screen_name'] . " There seem to be a problem with the server. Hey @julioelpoeta, you there??";
+				$this->reply_error($data);
+			}
+		} elseif(isset($data['error'])) {
+			cli_print('data error');
+			$data['message'] = $mention;
+			$this->reply_error($data);
 		}
-		return array('error' => $error);
 	}
 
-	protected function 	store_appointment(array $appointment) {
-		if(!isset($appointment['time'],
-			$appointment['place'],
-			$appointment['added_by'],
-			$appointment['tweet'],
-			$appointment['tweet_id'])
+	protected function store_appointment(array $data) {
+		$new_app = array(
+			'time' => $data['time'],
+			'place' => $data['place_id'],
+			'added_by' => $data['message'][$this->user_key]['screen_name'],
+			'tweet' => $data['message']['text'],
+			'tweet_id' => $data['message']['id_str'],
+		);
+		if(!isset($new_app['time'],
+			$new_app['place'],
+			$new_app['added_by'],
+			$new_app['tweet'],
+			$new_app['tweet_id'])
 		) {
 			return FALSE;
 		}
 
-		$appoinment = new Appointment;
-		$appoinment->a_date_ts = $appointment['time'];
-		$appoinment->place_id = $appointment['place'];
-		$appoinment->added_by = $appointment['added_by'];
-		$appoinment->tweet= $appointment['tweet'];
-		$appoinment->tweet_id = $appointment['tweet_id'];
+		$appointment = new Appointment;
+		$appointment->a_date_ts = $new_app['time'];
+		$appointment->place_id = $new_app['place'];
+		$appointment->added_by = $new_app['added_by'];
+		$appointment->tweet= $new_app['tweet'];
+		$appointment->tweet_id = $new_app['tweet_id'];
 
-		$appoinment->save();
-		return TRUE;
+		$appointment->save();
+		cli_print("Event added to the DB from tweet: " . $new_app['tweet']);
+		return $appointment;
+	}
+
+	protected function store_place(array $data) {
+		// Add the place if it couldn't be found
+		$place = new Place;
+
+		$place->name = $data['bar_name'];
+		if(!empty($data['map'])) {
+			foreach($data['message']['entities']['urls'] AS $url) {
+				if(strcmp($data['map'], $url['url']) == 0) {
+					$data['map'] = $url['expanded_url'];
+					break;
+				} else {
+					var_dump($data['map']);
+					var_dump($url); exit;
+				}
+			}
+			$place->map_link = $data['map'];
+		}
+		$place->added_by = $data['message']['user']['screen_name'];
+
+		$place->save();
+		cli_print('place ' . $data['bar_name'] . ' added.');
+		return $place;
+	}
+
+	protected function reply_to_event($data) {
+		$text = "Event added on {$data['bar_name']} on " . date("Y-m-d", $data['time']) . " at " . date("H:i", $data['time']) . " by @{$data['message']['user']['screen_name']} ";
+		$options = array(
+			'in_reply_to_status_id' => $data['message']['id'],
+		);
+		return $this->api->post_tweet($text, $options);
+	}
+
+	protected function reply_error($data) {
+		$text = "@{$data['message']['user']['screen_name']} The event couldn't be added. Error: {$data['error']}";
+		$options = array(
+			'in_reply_to_status_id' => $data['message']['id'],
+		);
+		return $this->api->post_tweet($text, $options);
 	}
 
 }
