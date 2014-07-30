@@ -4,6 +4,8 @@
 		<title>Birras TODAY...WHERE?</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
+		<link rel="icon" type="image/gif" href="/favicon.ico" />
+
 		{{ Asset::styles(); }}
 
 		{{ Asset::scripts(); }}
