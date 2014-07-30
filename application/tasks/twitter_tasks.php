@@ -57,9 +57,10 @@ class Twitter_Tasks {
 		cli_print('Tweet received: ' . $mention['text']);
 		$data = Birras::process_message($mention, $this->twitter_task);
 
+		// Processing was successful
 		if(isset($data['bar_name'])) {
-			$data['message'] = $mention;
 			// There is an event to be added
+			$data['message'] = $mention;
 			$place = Place::where_name(trim($data['bar_name']))->first();
 			if(empty($place)) {
 				$place = $this->store_place($data);
@@ -72,13 +73,39 @@ class Twitter_Tasks {
 				// Reply to the user
 				$this->reply_to_event($data);
 			} else {
-				$data['error'] = "@" . $mention[$this->user_key]['screen_name'] . " There seem to be a problem with the server. Hey @julioelpoeta, you there??";
-				$this->reply_error($data);
+				$data['error'] = "There seem to be a problem with the server. Hey @julioelpoeta, are you there??";
+				$this->reply_event_error($data);
+			}
+		} elseif(isset($data['place_to_delete'])) {
+		    // DELETE appointment linked to the place
+			$data['message'] = $mention;
+
+			// Retrieve appointments for today
+			$appointment = Appointment::where_place_id($data['place_to_delete']->id)->where_between('a_date_ts', strtotime("today"), strtotime('tomorrow -1 second'))->first();
+			if($appointment) {
+				if($appointment->added_by !== $mention[$this->user_key]['screen_name']) {
+					cli_print('Trying to delete an even @' . $mention[$this->user_key]['screen_name'] . ' didn\'t create.');
+					$data['error'] = "You didn't add this event so you can't delete it. Talk to @" . $appointment->added_by;
+					$this->reply_w_error($data);
+				}
+				$result = $appointment->delete();
+				if($result) {
+					cli_print("Event deleted from the DB from tweet: " . $mention['text']);
+					$this->reply_to_delete($data);
+				} else {
+					cli_print("There was a problem while deleting:  " . $mention['text']);
+					$data['error'] = "There seem to be a problem with the server on delete. Hey @julioelpoeta, are you there??";
+					$this->reply_w_error($data);
+				}
+			} else {
+				cli_print("The event doesn't exist:  " . $mention['text']);
+				$data['error'] = "The event you're trying to delete doesn't exist";
+				$this->reply_w_error($data);
 			}
 		} elseif(isset($data['error'])) {
 			cli_print('data error');
 			$data['message'] = $mention;
-			$this->reply_error($data);
+			$this->reply_w_error($data);
 		}
 	}
 
@@ -135,16 +162,40 @@ class Twitter_Tasks {
 		return $place;
 	}
 
-	protected function reply_to_event($data) {
-		$text = "Event added on {$data['bar_name']} on " . date("Y-m-d", $data['time']) . " at " . date("H:i", $data['time']) . " by @{$data['message']['user']['screen_name']} ";
+	protected function reply_w_error($data) {
+		$text = $data['error'];
 		$options = array(
 			'in_reply_to_status_id' => $data['message']['id'],
 		);
 		return $this->api->post_tweet($text, $options);
 	}
 
-	protected function reply_error($data) {
-		$text = "@{$data['message']['user']['screen_name']} The event couldn't be added. Error: {$data['error']}";
+	protected function reply_to_event($data) {
+		$text = "Event added on {$data['bar_name']} on " . date("Y-m-d", $data['time']) . " at " . date("H:i", $data['time']) . " by @{$data['message']['user']['screen_name']} ";
+
+		$options = array(
+			'in_reply_to_status_id' => $data['message']['id'],
+		);
+		return $this->api->post_tweet($text, $options);
+	}
+
+	protected function reply_event_error($data) {
+		$user = $data['message'][$this->user_key]['screen_name'];
+		$text = "@$user The event couldn't be added. Error: {$data['error']}";
+		$options = array(
+			'in_reply_to_status_id' => $data['message']['id'],
+		);
+		return $this->api->post_tweet($text, $options);
+	}
+
+	protected function reply_to_delete($data) {
+		$user = $data['message'][$this->user_key]['screen_name'];
+		$place = $data['place_to_delete']->name;
+		if(!isset($data['error'])) {
+			$text = "The event for today on $place has been deleted by @$user from http://birras.today";
+		} else {
+			$text
+		}
 		$options = array(
 			'in_reply_to_status_id' => $data['message']['id'],
 		);
