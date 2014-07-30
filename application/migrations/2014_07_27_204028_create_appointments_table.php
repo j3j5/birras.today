@@ -24,7 +24,7 @@ class Create_Appointments_Table {
 			$table->blob('votes')->nullable();
 			$table->tinyint('enabled')->default(1);
 			$table->timestamps();
-			$table->index(array('a_date_ts', 'enabled'));
+			$table->index(array('a_date_ts', 'name', 'enabled'));
 			$table->index(array('updated_at', 'enabled'));
 			$table->index('place_id');
 			$table->foreign('place_id')->references('id')->on('places');
