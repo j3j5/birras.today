@@ -63,6 +63,7 @@ class Home_Controller extends Base_Controller {
 		unset($clean_place['created_at']);
 		$clean_place['place_name'] = $clean_place['name'];
 		unset($clean_place['name']);
+		unset($clean_place['added_by']);
 		return $clean_place;
 	}
 
