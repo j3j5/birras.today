@@ -132,6 +132,9 @@ class Twitter_Tasks {
 		$appointment->added_by = $new_app['added_by'];
 		$appointment->tweet= $new_app['tweet'];
 		$appointment->tweet_id = $new_app['tweet_id'];
+		if($this->twitter_task === 'DMs') {
+			$appointment->public = 0;
+		}
 
 		$appointment->save();
 		cli_print("Event added to the DB from tweet: " . $new_app['tweet']);

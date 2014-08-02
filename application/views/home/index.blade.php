@@ -72,6 +72,7 @@
 					@endif
 				</p>
 			@endif
+			@if($app['public'])
 			<span>
 				<a href="https://twitter.com/{{ $app['added_by'] }}/status/{{ $app['tweet_id'] }}" target="_blank">
 					Added
@@ -80,6 +81,7 @@
 					@{{ $app['added_by'] }}
 				</a>
 			</span>
+			@endif
 		@endforeach
 	@else
 		<h2>NOT KNOWN YET</h2>
