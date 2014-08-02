@@ -43,14 +43,14 @@ class Twitter_Tasks {
 		}
 
 		// If the user is not on the allowd admins, ignore the mention
-		if(isset($mention['user']['screen_name'])) {
-			if(!in_array($mention['user']['id_str'], $this->allowed_people)) {
-				cli_print('User wants to add a mention but it\'s not allowed: ' . $mention['user']['screen_name']);
-				continue;
+		if(isset($mention[$this->user_key]['screen_name'])) {
+			if(!in_array($mention[$this->user_key]['id_str'], $this->allowed_people)) {
+				cli_print('User wants to add an event but it\'s not allowed: ' . $mention[$this->user_key]['screen_name'] . ' from ' . $this->twitter_task);
+				return FALSE;
 			}
 		} else {
 			cli_print('Weird!! no user owning the mention?: ' . print_r($mention, TRUE));
-			continue;
+			return FALSE;
 		}
 
 		// Seems to be a request from a valid user, parse it
@@ -73,7 +73,12 @@ class Twitter_Tasks {
 				// Reply to the user
 				$this->reply_to_event($data);
 			} else {
-				$data['error'] = "There seem to be a problem with the server. Hey @julioelpoeta, are you there??";
+				$data['error'] = "There seem to be a problem with the server.";
+				if($this->twitter_task === "DMs") {
+					$data['error'] .= " Ping @julioelpoeta and tell him to check it!";
+				} else {
+					$data['error'] .= " Hey @julioelpoeta, are you there??";
+				}
 				$this->reply_event_error($data);
 			}
 		} elseif(isset($data['place_to_delete'])) {
@@ -84,12 +89,12 @@ class Twitter_Tasks {
 			$appointment = Appointment::where_place_id($data['place_to_delete']->id)->where_between('a_date_ts', strtotime("today"), strtotime('tomorrow -1 second'))->first();
 			if($appointment) {
 				if($appointment->added_by !== $mention[$this->user_key]['screen_name']) {
-					cli_print('Trying to delete an even @' . $mention[$this->user_key]['screen_name'] . ' didn\'t create.');
-					$data['error'] = "You didn't add this event so you can't delete it. Talk to @" . $appointment->added_by;
+					cli_print('Trying to delete an event @' . $mention[$this->user_key]['screen_name'] . ' didn\'t create.');
+					$data['error'] = '@' . $mention[$this->user_key]['screen_name'] . " You didn't add this event so you can't delete it. Talk to @" . $appointment->added_by;
 					$this->reply_w_error($data);
 				}
 				$result = $appointment->delete();
-				if($result) {
+				if($result && !isset($result->error)) {
 					cli_print("Event deleted from the DB from tweet: " . $mention['text']);
 					$this->reply_to_delete($data);
 				} else {
@@ -158,51 +163,72 @@ class Twitter_Tasks {
 			}
 			$place->map_link = $data['map'];
 		}
-		$place->added_by = $data['message']['user']['screen_name'];
+		$place->added_by = $data['message'][$this->user_key]['screen_name'];
 
 		$place->save();
 		cli_print('place ' . $data['bar_name'] . ' added.');
 		return $place;
 	}
 
-	protected function reply_w_error($data) {
+	protected function reply_w_error($data, $to_user = FALSE) {
 		$text = $data['error'];
-		$options = array(
-			'in_reply_to_status_id' => $data['message']['id'],
-		);
-		return $this->api->post_tweet($text, $options);
+		if($this->twitter_task == 'DMs') {
+			if(!empty($to_user)) {
+				return $this->api->post_dm($text, $to_user);
+			}
+			cli_print('You cannot send a DM w/o providing a $to_user var.');
+		} else {
+			if(isset($data['message']['id'])) {
+				$options = array(
+					'in_reply_to_status_id' => $data['message']['id'],
+				);
+			}
+			return $this->api->post_tweet($text, $options);
+		}
 	}
 
 	protected function reply_to_event($data) {
-		$text = "Event added on {$data['bar_name']} on " . date("Y-m-d", $data['time']) . " at " . date("H:i", $data['time']) . " by @{$data['message']['user']['screen_name']} ";
+
+		$text = "Event added on {$data['bar_name']} on " . date("Y-m-d", $data['time']) . " at " . date("H:i", $data['time']) . '. Check http://birras.today';
+		if($this->twitter_task == 'DMs') {
+			$this->api->post_dm($text, $data['message'][$this->user_key]['id_str']);
+		} else {
+			$text .= " by @{$data['message'][$this->user_key]['screen_name']} ";
+		}
 
 		$options = array(
 			'in_reply_to_status_id' => $data['message']['id'],
 		);
+// 		cli_print("Tweeting: " . $text);
 		return $this->api->post_tweet($text, $options);
 	}
 
 	protected function reply_event_error($data) {
 		$user = $data['message'][$this->user_key]['screen_name'];
-		$text = "@$user The event couldn't be added. Error: {$data['error']}";
-		$options = array(
-			'in_reply_to_status_id' => $data['message']['id'],
-		);
-		return $this->api->post_tweet($text, $options);
+		$text = "The event couldn't be added. Error: {$data['error']}";
+		if($this->twitter_task == 'DMs') {
+			$this->api->post_dm($text, $data['message'][$this->user_key]['id_str']);
+		} else {
+			$text = "@$user " . $text;
+			$options = array(
+				'in_reply_to_status_id' => $data['message']['id'],
+			);
+			return $this->api->post_tweet($text, $options);
+		}
 	}
 
 	protected function reply_to_delete($data) {
 		$user = $data['message'][$this->user_key]['screen_name'];
 		$place = $data['place_to_delete']->name;
-		if(!isset($data['error'])) {
-			$text = "The event for today on $place has been deleted by @$user from http://birras.today";
+		$text = "The event for today on $place has been deleted by @$user from http://birras.today";
+		if($this->twitter_task == 'DMs') {
+			$this->api->post_dm($text, $data['message'][$this->user_key]['id_str']);
 		} else {
-			$text
+			$options = array(
+				'in_reply_to_status_id' => $data['message']['id'],
+			);
+			return $this->api->post_tweet($text, $options);
 		}
-		$options = array(
-			'in_reply_to_status_id' => $data['message']['id'],
-		);
-		return $this->api->post_tweet($text, $options);
 	}
 
 }
