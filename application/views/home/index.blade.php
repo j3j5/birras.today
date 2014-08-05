@@ -41,7 +41,7 @@
 		<h2>YES,</h2>
 		@foreach($appointments AS $app)
 			<h3>
-				TODAY, <strong>{{ date('Y-m-d'); }}</strong> around {{ date('H:i', $app['a_date_ts']); }},
+				TODAY, <strong>{{ date('Y-m-d'); }}</strong> around {{ date('H:i', $app['a_date_ts']); }}
 			@if(!empty($app['appointment_name']))
 				@if(!empty($app['link']))
 					<a href="{{ $app['link'] }}">
@@ -50,6 +50,7 @@
 				@else
 					{{ $app['appointment_name'] }}
 				@endif
+				at 
 			@endif
 			</h3>
 
