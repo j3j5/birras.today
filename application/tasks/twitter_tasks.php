@@ -20,7 +20,13 @@ class Twitter_Tasks {
 	}
 
 	protected function get_allowed_users() {
-		return $this->api->get_friends();
+		$cache_key = 'allowed_users';
+		$users = Cache::get($cache_key);
+		if(empty($users)) {
+			$users = $this->api->get_friends();
+			Cache::put($cache_key, $users, 15);
+		}
+		return $users;
 	}
 
 	protected function get_last_processed() {
