@@ -3,3 +3,5 @@
 - Add 404 page
 - Add about and help page
 - A second tweet to add an event by the same user who already have one, will modify the event (no more than 1 event per user per day)
+- Add login with twitter
+- Add aliases for places
