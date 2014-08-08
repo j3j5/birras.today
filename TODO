@@ -1,7 +1,18 @@
-- Add id to events so they can be deleted/updated easily
+BACKEND
+- Add aliases for places
 - Add a task to reply to mentions/DM asking whether there are birras today
-- Add 404 page
-- Add about and help page
 - A second tweet to add an event by the same user who already have one, will modify the event (no more than 1 event per user per day)
 - Add login with twitter
-- Add aliases for places
+- Add id to events so they can be deleted/updated easily [MAYBE NOT NEEDED]
+- Add integration with instagram
+- Add integration with foursquare
+- Add integration with email
+- Add integration with facebook
+
+FRONTEND
+- Add pictures (if added) to the event (from twitter)
+- Add about and help page
+- Add 404 page
+- Add punchcard graph for day/time of events
+- Add ranking of users
+- Add ranking of places
