@@ -2,33 +2,10 @@
 
 class Home_Controller extends Base_Controller {
 
-	/*
-	|--------------------------------------------------------------------------
-	| The Default Controller
-	|--------------------------------------------------------------------------
-	|
-	| Instead of using RESTful routes and anonymous functions, you might wish
-	| to use controllers to organize your application API. You'll love them.
-	|
-	| This controller responds to URIs beginning with "home", and it also
-	| serves as the default controller for the application, meaning it
-	| handles requests to the root of the application.
-	|
-	| You can respond to GET requests to "/home/profile" like so:
-	|
-	|		public function action_profile()
-	|		{
-	|			return "This is your profile!";
-	|		}
-	|
-	| Any extra segments are passed to the method as parameters:
-	|
-	|		public function action_profile($id)
-	|		{
-	|			return "This is the profile for user {$id}.";
-	|		}
-	|
-	*/
+	public function __construct() {
+		parent::__construct();
+		$this->filter('before', 'auth')->only(array('profile'));
+	}
 
 	public function action_index()
 	{
@@ -41,11 +18,19 @@ class Home_Controller extends Base_Controller {
 		    $view_appointments[] = array_merge($clean_app, $clean_place);
 		}
 
-		Asset::add('index', 'css/index.css');
-		Asset::add('piwik', 'js/piwik.js');
+		Asset::container('header')->add('index', 'css/index.css');
+		Asset::container('header')->add('piwik', 'js/piwik.js');
+		Asset::container('footer')->add('prefix-free', '/leaverou.github.io/prefixfree/prefixfree.min.js');
 
 		return View::make('home.index', array('appointments' => $view_appointments));
 	}
+
+	public function action_profile() {
+		return View::make('home.profile');
+	}
+
+
+
 
 	private function clean_appointment($app) {
 		$clean_app = (array)$app;
