@@ -23,9 +23,10 @@ class Create_Appointments_Table {
 			$table->text('link')->nullable();
 			$table->blob('votes')->nullable();
 			$table->tinyint('public')->default(1);
+			$table->date('appointment_date');
 			$table->timestamps();
-			$table->index(array('a_date_ts', 'name', 'public'));
-			$table->index(array('updated_at', 'enabled'));
+			$table->index(array('appointment_date', 'added_by'));
+			$table->index(array('updated_at'));
 			$table->index('place_id');
 			$table->foreign('place_id')->references('id')->on('places');
 			$table->engine = 'InnoDB';
