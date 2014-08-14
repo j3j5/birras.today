@@ -67,13 +67,28 @@ class Twitter_Tasks {
 		if(isset($data['bar_name'])) {
 			// There is an event to be added
 			$data['message'] = $mention;
-			$place = Place::where_name(trim($data['bar_name']))->first();
+			$place = Place::where_name($data['bar_name'])->first();
 			if(empty($place)) {
-				$place = $this->store_place($data);
+				// The place couldn't be found, let's try with the aliases
+				$place = FALSE;
+				$place_alias = Place_Alias::find($data['bar_name']);
+				if(is_object($place_alias)) {
+					$place = $place_alias->place()->first();
+				} else {
+					// If the place still couldn't be found, add it
+					$place = $this->store_place($data);
+				}
 			}
-			///TODO: Check that there's not already an event today on the same place before adding
 			$data['place_id'] = $place->id;
-			$appointment = $this->store_appointment($data, $this->twitter_task);
+
+			// Has the user already added an event?
+			$appointment = Appointment::where_appointment_date(date('Y-m-d', $data['time']))->where_added_by($message[$this->user_key]['screen_name'])->first();
+			if(is_object($appointment)) {
+				$this->update_appointment($appointment, $data);
+			} else {
+				// Otherwise store a new one
+				$appointment = $this->store_appointment($data, $this->twitter_task);
+			}
 
 			if($appointment) {
 				// Reply to the user
@@ -99,6 +114,7 @@ class Twitter_Tasks {
 					$data['error'] = '@' . $mention[$this->user_key]['screen_name'] . " You didn't add this event so you can't delete it. Talk to @" . $appointment->added_by;
 					$this->reply_w_error($data);
 				}
+
 				$result = $appointment->delete();
 				if($result && !isset($result->error)) {
 					cli_print("Event deleted from the DB from tweet: " . $mention['text']);
@@ -118,6 +134,16 @@ class Twitter_Tasks {
 			$data['message'] = $mention;
 			$this->reply_w_error($data);
 		}
+	}
+
+	protected function update_appointment($appointment, array &$data) {
+		$appointment->a_date_ts = $data['time'];
+		$appointment->place_id = $data['place_id'];
+		$appointment->added_by = $data['message'][$this->user_key]['screen_name'];
+		$appointment->tweet= $data['message']['text'];
+		$appointment->tweet_id = $data['message']['id_str'];
+		$data['update'] = TRUE;
+		return $appointment->save();
 	}
 
 	protected function store_appointment(array $data) {
@@ -143,6 +169,7 @@ class Twitter_Tasks {
 		$appointment->added_by = $new_app['added_by'];
 		$appointment->tweet= $new_app['tweet'];
 		$appointment->tweet_id = $new_app['tweet_id'];
+		$appointment->date = date('Y-m-d', $new_app['time']);
 		if($this->twitter_task === 'DMs') {
 			$appointment->public = 0;
 		}
@@ -195,11 +222,17 @@ class Twitter_Tasks {
 
 	protected function reply_to_event($data) {
 
-		$text = "Event added on {$data['bar_name']} on " . date("Y-m-d", $data['time']) . " at " . date("H:i", $data['time']) . '. Check http://birras.today';
+		if(isset($data['udpate']) && $data['update']) {
+			$text = "The event on {$data['bar_name']} has been updated to on " . date("Y-m-d", $data['time']) . " at " . date("H:i", $data['time']);
+		} else {
+			$text = "Event added on {$data['bar_name']} on " . date("Y-m-d", $data['time']) . " at " . date("H:i", $data['time']);
+		}
 		if($this->twitter_task == 'DMs') {
+			$text .= '. Check http://birras.today';
 			$this->api->post_dm($text, $data['message'][$this->user_key]['id_str']);
 		} else {
 			$text .= " by @{$data['message'][$this->user_key]['screen_name']} ";
+			$text .= '. Check http://birras.today';
 		}
 
 		$options = array(
