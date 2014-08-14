@@ -40,33 +40,33 @@ class Twitter_Tasks {
 		return $twitter_event;
 	}
 
-	protected function process_message(&$mention, &$first, &$task) {
+	protected function process_message(&$message, &$first, &$task) {
 		// Next call will retrieve from this last id on
 		if($first) {
-			$task->last_id = $mention['id_str'];
+			$task->last_id = $message['id_str'];
 			$task->save();
 			$first = FALSE;
 		}
 
 		// If the user is not on the allowd admins, ignore the mention
-		if(isset($mention[$this->user_key]['screen_name'])) {
-			if(!in_array($mention[$this->user_key]['id_str'], $this->allowed_people)) {
-				cli_print('User wants to add an event but it\'s not allowed: ' . $mention[$this->user_key]['screen_name'] . ' from ' . $this->twitter_task);
+		if(isset($message[$this->user_key]['screen_name'])) {
+			if(!in_array($message[$this->user_key]['id_str'], $this->allowed_people)) {
+				cli_print('User wants to add an event but it\'s not allowed: ' . $message[$this->user_key]['screen_name'] . ' from ' . $this->twitter_task);
 				return FALSE;
 			}
 		} else {
-			cli_print('Weird!! no user owning the mention?: ' . print_r($mention, TRUE));
+			cli_print('Weird!! no user owning the mention?: ' . print_r($message, TRUE));
 			return FALSE;
 		}
 
 		// Seems to be a request from a valid user, parse it
-		cli_print('Tweet received: ' . $mention['text']);
-		$data = Birras::process_message($mention, $this->twitter_task);
+		cli_print('Tweet received: ' . $message['text']);
+		$data = Birras::process_message($message, $this->twitter_task);
 
 		// Processing was successful
 		if(isset($data['bar_name'])) {
 			// There is an event to be added
-			$data['message'] = $mention;
+			$data['message'] = $message;
 			$place = Place::where_name($data['bar_name'])->first();
 			if(empty($place)) {
 				// The place couldn't be found, let's try with the aliases
@@ -104,34 +104,35 @@ class Twitter_Tasks {
 			}
 		} elseif(isset($data['place_to_delete'])) {
 		    // DELETE appointment linked to the place
-			$data['message'] = $mention;
+			$data['message'] = $message;
 
 			// Retrieve appointments for today
 			$appointment = Appointment::where_place_id($data['place_to_delete']->id)->where_between('a_date_ts', strtotime("today"), strtotime('tomorrow -1 second'))->first();
 			if($appointment) {
-				if($appointment->added_by !== $mention[$this->user_key]['screen_name']) {
-					cli_print('Trying to delete an event @' . $mention[$this->user_key]['screen_name'] . ' didn\'t create.');
-					$data['error'] = '@' . $mention[$this->user_key]['screen_name'] . " You didn't add this event so you can't delete it. Talk to @" . $appointment->added_by;
+				// Check the owner
+				if($appointment->added_by !== $message[$this->user_key]['screen_name']) {
+					cli_print('Trying to delete an event @' . $message[$this->user_key]['screen_name'] . ' didn\'t create.');
+					$data['error'] = '@' . $message[$this->user_key]['screen_name'] . " You didn't add this event so you can't delete it. Talk to @" . $appointment->added_by;
 					$this->reply_w_error($data);
 				}
 
 				$result = $appointment->delete();
 				if($result && !isset($result->error)) {
-					cli_print("Event deleted from the DB from tweet: " . $mention['text']);
+					cli_print("Event deleted from the DB from tweet: " . $message['text']);
 					$this->reply_to_delete($data);
 				} else {
-					cli_print("There was a problem while deleting:  " . $mention['text']);
+					cli_print("There was a problem while deleting:  " . $message['text']);
 					$data['error'] = "There seem to be a problem with the server on delete. Hey @julioelpoeta, are you there??";
 					$this->reply_w_error($data);
 				}
 			} else {
-				cli_print("The event doesn't exist:  " . $mention['text']);
+				cli_print("The event doesn't exist:  " . $message['text']);
 				$data['error'] = "The event you're trying to delete doesn't exist";
 				$this->reply_w_error($data);
 			}
 		} elseif(isset($data['error'])) {
 			cli_print('data error');
-			$data['message'] = $mention;
+			$data['message'] = $message;
 			$this->reply_w_error($data);
 		}
 	}
