@@ -66,7 +66,7 @@ class Birras {
 			switch ($match) {
 				case 'comingto':
 					if(!empty($matches[$index+1])) {
-						$bar_name = $matches[$index+1];
+						$bar_name = trim($matches[$index+1]);
 					} else {
 						$error = 'Empty location.';
 					}
@@ -80,8 +80,10 @@ class Birras {
 					}
 					break;
 				case 'map':
-					///TODO: Check this is actually a valid URL
-					$map_link = $matches[$index+1];
+					$map_link = filter_var($matches[$index+1], FILTER_VALIDATE_URL);
+					if(!is_string($map_link)) {
+						$map_link = '';
+					}
 					break;
 				case 'deleteevent':
 					$place_to_delete = $matches[$index+1];
