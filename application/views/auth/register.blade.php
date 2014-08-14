@@ -1,12 +1,7 @@
-@include('home.layout')
+@layout('layout')
 
 @section('content')
-<h1>Login</h1>
-
-<!-- check for login error flash var -->
-@if (Session::has('flash_error'))
-	<div id="flash_error">{{ Session::get('flash_error') }}</div>
-@endif
+<h1>Sign up</h1>
 
 {{ Form::open('register', 'POST') }}
 
@@ -48,3 +43,4 @@
 <p>{{ Form::submit('Register') }}</p>
 
 {{ Form::close() }}
+@endsection
