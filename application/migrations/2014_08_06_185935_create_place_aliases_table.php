@@ -20,6 +20,21 @@ class Create_Place_Aliases_Table {
 // 			$table->foreign('place_id')->references('id')->on('places');
 			$table->engine = 'InnoDB';
 		});
+
+		// Insert some stuff
+		DB::table('place_aliases')->insert(
+			array(
+				'alias' => 'SoundGarden',
+				'place_id' => 1,
+			)
+		);
+
+		DB::table('place_aliases')->insert(
+			array(
+				'alias' => 'The Sound Garden',
+				'place_id' => 1,
+			)
+		);
 	}
 
 	/**

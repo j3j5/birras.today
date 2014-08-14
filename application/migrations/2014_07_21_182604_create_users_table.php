@@ -19,6 +19,16 @@ class Create_Users_Table {
 			$table->string('email');
 			$table->timestamps();
 		});
+
+		// Insert some stuff
+		DB::table('users')->insert(
+			array(
+				'username' => 'test',
+				'password' => Hash::make('test'),
+				'name' => 'Mr. Test',
+				'email' => 'testing@domain.com',
+			)
+		);
 	}
 
 	/**
