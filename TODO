@@ -1,9 +1,6 @@
 BACKEND
-- Add aliases for places
-- Add a task to reply to mentions/DM asking whether there are birras today
-- A second tweet to add an event by the same user who already have one, will modify the event (no more than 1 event per user per day)
 - Add login with twitter
-- Add id to events so they can be deleted/updated easily [MAYBE NOT NEEDED]
+- Add a task to reply to mentions/DM asking whether there are birras today
 - Add integration with instagram
 - Add integration with foursquare
 - Add integration with email
