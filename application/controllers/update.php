@@ -9,7 +9,8 @@ class Update_Controller extends Base_Controller {
 	 */
 	public function get_place() {
 
-		Asset::container('footer')->add('update', 'js/update.js');
+		Asset::container('header')->add('update_css', 'css/update.css');
+		Asset::container('footer')->add('update_js', 'js/update.js');
 
 		return View::make('update.place');
 	}
