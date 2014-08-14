@@ -32,63 +32,16 @@
 |
 */
 Route::get('/', 'home@index');
-// Route::get('/', function()
-// {
-// 	return View::make('home.home');
-// });
 
-Route::get('login',array('before' => 'guest', function () {
-	return View::make('auth.login');
-}));
+Route::get('test', function() {
+	$appointment = Appointment::where_appointment_date('2014-08-07')->where_added_by('javi_negrae')->first();
+	var_dump($appointment);
+});
 
-Route::get('register',array('before' => 'guest', function () {
-	return View::make('auth.register');
-}));
+Route::controller('home');
 
-Route::post('register', array('before' => 'guest|csrf', function () {
-	$username =  strtolower(Input::get('username'));
-	if(strcmp(Input::get('password'), Input::get('password2')) !== 0) {
-		return Redirect::to('register')
-						->with('flash_error', "Your password didn't match.")
-						->withInput();
-	}
-
-	User::create(array(
-			'username' => $username,
-			'password' => Hash::make(Input::get('password')),
-			'name' => Input::get('name'),
-			'email' => Input::get('email'),
-	));
-	return Redirect::to('/')->with('flash_notice', "Congrats, you have registered!");
-}));
-
-
-Route::get('logout', array('before' => 'auth', function () {
-	Auth::logout();
-
-	return Redirect::to('home')->with('flash_notice', 'You are successfully logged out.');
-}));
-
-Route::post('login', array('before' => 'guest|csrf', function () {
-	$user = array(
-		'username' => Input::get('username'),
-		'password' => Input::get('password')
-	);
-
-	if (Auth::attempt($user)) {
-		return Redirect::to('/')->with('flash_notice', 'You are successfully logged in.');
-	}
-
-	// authentication failure! lets go back to the login page
-	return Redirect::to('login')
-		->with('flash_error', 'Your username/password combination was incorrect.')
-		->withInput();
-}));
-
-
-Route::get('profile', array('before' => 'auth', function () {
-	return View::make('auth.profile');
-}));
+Route::controller('auth');
+Route::controller('update');
 
 /*
 |--------------------------------------------------------------------------
@@ -108,6 +61,11 @@ Route::get('profile', array('before' => 'auth', function () {
 
 Event::listen('404', function()
 {
+	Asset::container('header')->add('bootstrap_css', "/maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
+	Asset::container('header')->add('global', "css/global.css");
+
+	Asset::container('footer')->add('jquery', '/code.jquery.com/jquery-1.11.1.min.js');
+	Asset::container('footer')->add('bootstrap_js', "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js");
 	return Response::error('404');
 });
 
@@ -156,8 +114,9 @@ Route::filter('after', function($response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest())
-		return Redirect::to('login')->with('flash_error', 'You must be logged in to view this page!');
+	if (Auth::guest()) {
+		return Redirect::to('auth/login')->with('flash_error', 'You must be logged in to view this page!');
+	}
 });
 
 Route::filter('guest', function()
@@ -170,9 +129,4 @@ Route::filter('guest', function()
 Route::filter('csrf', function()
 {
 	if (Request::forged()) return Response::error('500');
-});
-
-Route::filter('auth', function()
-{
-	if (Auth::guest()) return Redirect::to('login');
 });
