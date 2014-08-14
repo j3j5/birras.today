@@ -8,6 +8,7 @@ body {
 	background-color:  #E9573F;
 	text-align: center;
 }
+
 h1 {
 	display: inline-block;
 	margin-top: 50px;
@@ -16,9 +17,11 @@ h1 {
 	border-bottom: solid 5px white;
 	transform: skew(0, -5deg);
 }
+
 section {
 	background-color: #FC6E51;
 }
+
 #action {
 	margin: 0 auto;
 	width: 700px;
@@ -112,6 +115,7 @@ section {
 
 	animation: handle 5s ease infinite;
 }
+
 #pipe-handle:before {
 	position: absolute;
 	top: -60px;
@@ -123,6 +127,7 @@ section {
 	background-color: #CCD1D9;
 	border-radius: 5px 5px 0 0;
 }
+
 #pipe-handle:after {
 	position: absolute;
 	top: -20px;
@@ -133,6 +138,7 @@ section {
 	height: 20px;
 	background-color: #CCD1D9;
 }
+
 @keyframes handle {
 	0%, 10% {
 		transform: rotate(0deg);
