@@ -59,9 +59,10 @@ Laravel\Autoloader::$aliases = $aliases;
 */
 
 Autoloader::map(array(
-	'Base_Controller' => path('app').'controllers/base.php',
-	'Twitter_Event' => path('app') . 'models/twitter_event.php',
-	'Twitter_Tasks' => path('app') . 'tasks/twitter_tasks.php',
+	'Base_Controller'	=> path('app').'controllers/base.php',
+	'Place_Alias' 		=> path('app') . 'models/place_alias.php',
+	'Twitter_Event'		=> path('app') . 'models/twitter_event.php',
+	'Twitter_Tasks'		=> path('app') . 'tasks/twitter_tasks.php',
 ));
 
 /*
