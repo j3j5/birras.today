@@ -18,11 +18,23 @@ class Home_Controller extends Base_Controller {
 		    $view_appointments[] = array_merge($clean_app, $clean_place);
 		}
 
+		///TODO: Optimize this
+		$top_places = array();
+		$db_places = Place::all();
+		foreach($db_places AS $key=>$place) {
+			$top_places[$key] = array('place' => $place->id, 'count' => $place->count_appointments(), 'place' => $place);
+		    $places[$key] = $place->id;
+			$count[$key] = $place->count_appointments();
+		}
+		// Sort the data with volume descending, edition ascending
+		// Add $data as the last parameter, to sort by the common key
+		array_multisort($count, SORT_DESC, $places, SORT_ASC, $top_places);
+
 		Asset::container('header')->add('index', 'css/index.css');
 		Asset::container('header')->add('piwik', 'js/piwik.js');
 		Asset::container('footer')->add('prefix-free', '/leaverou.github.io/prefixfree/prefixfree.min.js');
 
-		return View::make('home.index', array('appointments' => $view_appointments));
+		return View::make('home.index', array('appointments' => $view_appointments, 'top_places' => $top_places));
 	}
 
 	public function action_profile() {
