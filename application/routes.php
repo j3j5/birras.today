@@ -63,6 +63,7 @@ Event::listen('404', function()
 {
 	Asset::container('header')->add('bootstrap_css', "/maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
 	Asset::container('header')->add('global', "css/global.css");
+	Asset::container('header')->add('404', "css/404.css");
 
 	Asset::container('footer')->add('jquery', '/code.jquery.com/jquery-1.11.1.min.js');
 	Asset::container('footer')->add('bootstrap_js', "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js");

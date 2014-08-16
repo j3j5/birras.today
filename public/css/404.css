@@ -1,0 +1,52 @@
+@charset "UTF-8";
+
+#notFound {
+	width: 100vw;
+	height: 100vh;
+	background: url(../img/404.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	color: white;
+	text-align: center;
+	z-index: 1;
+}
+#notFound h1 {
+	font-size: 36px;
+	font-weight: 800;
+}
+
+#notFound h2 {
+	font-size: 30px;
+	font-weight: 700;
+}
+
+
+#notFound h3 {
+	font-size: 26px;
+}
+
+#notFound p {
+	font-size: 16px;
+}
+
+#notFound .main {
+	font-weight: 400;
+	max-width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	z-index: 3;
+	padding-top: 4%;
+}
+
+.overlay {
+	width: 101%;
+	height: 104.5%;
+	position: absolute;
+	left: 0;
+/* 	background-color: ; */
+	z-index: 2;
+	background: rgba(0, 0, 0, 0.65) url(../img/overlay.png) repeat;
+}
