@@ -1,13 +1,13 @@
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="navbar navbar-inverse home my-navbar" role="navigation">
 	<div id="container">
-		<div class="navbar-header">
+		<div class="navbar-header header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/">BIRRAS.TODAY</a>
+			<a class="navbar-brand" href="/"><img id="logo" src="/img/birrastoday.png">BIRRAS.TODAY</a>
 		</div>
 		<div class="navbar-collapse collapse">
 <!-- 				<ul class="nav navbar-nav"> -->
@@ -30,23 +30,23 @@
 			@if(Auth::guest())
 				{{ Form::open('auth/login', 'POST', array('id' => 'loginForm', 'class' => "navbar-form navbar-right", "role" => "form")) }}
 
-					<div class="form-group">
-						{{ Form::text('username', Input::old('username'), array('class' => 'form-control')) }}
+					<div class="form-group home-login">
+					{{ Form::text('username', Input::old('username'), array('class' => 'my-form-control', 'placeholder' => 'Username')) }}
 
 					</div>
 
-					<div class="form-group">
-						{{ Form::password('password', array('class' => 'form-control')) }}
+					<div class="form-group home-login">
+						{{ Form::password('password', array('class' => 'my-form-control', 'placeholder' => 'Password')) }}
 <!-- 					<input type="password" placeholder="Password" class="form-control"> -->
 					</div>
 					<!-- csrf token	 -->
 					{{ Form::token() }}
 
-					<button type="submit" class="btn btn-sm btn-success">Sign in</button>
+					<button type="submit" class="btn my-btn">Sign in</button>
 				{{ Form::close() }}
 			@else
-				<div class="form-group navbar-right">
-					<a href="/auth/logout"><button type="submit" class="btn btn-sm btn-warning">Sign out</button></a>
+				<div id="loginForm" class="form-group navbar-form navbar-right home-login">
+					<a href="/auth/logout"><button type="submit" class="btn my-btn logout">Sign out</button></a>
 				</div>
 			@endif
 		</div><!--/.navbar-collapse -->

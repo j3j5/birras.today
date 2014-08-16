@@ -19,9 +19,11 @@
 			</div>
 		</div>
 	</section>
+	<div class="title1">
 		<h1>
 			BIRRAS.TODAY
 		</h1>
+	</div>
 	@if ( !empty($appointments) )
 		<h2>YES,</h2>
 		@foreach($appointments AS $app)
@@ -70,10 +72,10 @@
 			@endif
 		@endforeach
 	@else
-		<h2>NOT KNOWN YET</h2>
-		<h3>GO TO SKYPE AND GIVE YOUR OPINION OR
+		<h2>Not known yet</h2>
+		<div id="instructions">Go to Skype and give your opinion or
 			<a href="https://twitter.com/intent/tweet?text={{ urlencode("@birrastoday #comingto NAME_OF_THE_PLACE #time TIME #map LINK_TO_THE_LOCATION "); }}" target="_blank">
-				SEND A TWEET
-			</a> TO <a href="https://twitter.com/birrastoday" target="_blank">THE BOT!!</a></h3>
+				send a tweet
+			</a> to <a href="https://twitter.com/birrastoday" target="_blank">the bot</a>!!</div>
 	@endif
 @endsection

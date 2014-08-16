@@ -1,8 +1,14 @@
 @charset "UTF-8";
 
 body {
+/* 	padding-top: 31px; */
+	font-family: 'Open Sans', sans-serif;
+}
+
+#mainContent {
 	padding-top: 50px;
 }
+
 .content {
 	padding: 40px 15px;
 	text-align: center;
@@ -11,58 +17,28 @@ body {
 #loginForm {
 	margin: 5px;
 }
-.no-box-sizing * {
 
+.no-box-sizing * {
 	box-sizing: content-box;
 }
 
+.navbar-brand {
+	color: white !important;
+	font-size: 15px;
+	font-weight: 600;
+}
+
+#logo {
+	width: 30px;
+	height: 30px;
+	margin-right: 5px;
+}
+
 a {
-	color: #2B7B91;
+	color: #350147;
 }
 
-#notFound {
-	width: 100vw;
-	height: 100vh;
-	background: url(../img/404.jpg) no-repeat center center fixed;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
-	color: white;
-	text-align: center;
-	z-index: 1;
-}
-#notFound h1 {
-	font-size: 44px;
+#mainContent {
+	margin-top: -19px;
 }
 
-#notFound h2 {
-	font-size: 40px;
-}
-
-
-#notFound h3 {
-	font-size: 26px;
-}
-
-#notFound p {
-	font-size: 16px;
-}
-
-#notFound .main {
-	font-weight: 900;
-	max-width: 50%;
-	margin-left: auto;
-	margin-right: auto;
-	position: relative;
-	z-index: 3;
-}
-
-#notFound .overlay {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	left: 0;
-	background-color: rgba(0, 0, 0, 0.65);
-	z-index: 2;
-}

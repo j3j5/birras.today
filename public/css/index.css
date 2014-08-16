@@ -22,6 +22,75 @@ section {
 	background-color: #FC6E51;
 }
 
+.home {
+	background-color: #FC6E51;
+	border-color: #FC6E51;
+}
+
+.my-btn {
+	border-radius: 0px;
+	padding: 4px 30px;
+	background-color: rgba(255, 255, 255, 0.3);
+	color: white;
+}
+
+.my-btn:hover {
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #FC6E51;
+}
+
+.logout {
+	background-color: rgba(178, 18, 18, 0.3);
+	border: rgba(255, 255, 255, 0.7) 1px solid;
+}
+
+.home-login {
+	opacity: 0.8;
+}
+
+input:focus {
+	background-color: rgba(255, 255, 255, 1) !important;
+/* 	opacity: 1; */
+}
+
+#loginForm {
+	margin: 25px 5px;
+}
+
+.header {
+	margin: 15px 10px;
+}
+
+.title1 h1 {
+	margin-bottom: 30px
+}
+
+.my-navbar {
+	margin-bottom: 0px;
+}
+
+#mainContent {
+	padding-top: 0px;
+}
+
+.my-form-control {
+	border: none;
+	max-width: 150px;
+	padding: 5px 10px;
+	color: #999;
+}
+
+#instructions {
+	font-size: 1.2em;
+	font-weight: 400;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+#instructions a {
+	color: white;
+	text-decoration: underline;
+}
+
 #action {
 	margin: 0 auto;
 	width: 700px;
