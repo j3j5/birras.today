@@ -2,6 +2,14 @@
 
 @section('content')
 	<section>
+		<div class="chalkboard chalkboard-left">
+			Hall of Fame
+			<ul>
+				@foreach($top_places as $place)
+					<li>{{ $place['place']->name }} ({{ $place['count'] }})</li>
+				@endforeach
+			</ul>
+		</div>
 		<div id="action" class="no-box-sizing">
 			<div id="keg">
 				<div id="pipe-handle"></div>
@@ -24,6 +32,14 @@
 				@endif
 				</div>
 			</div>
+		</div>
+		<div class="chalkboard chalkboard-right">
+			Hall of Fame
+			<ul>
+				@foreach($top_places as $place)
+					<li>{{ $place['place']->name }} ({{ $place['count'] }})</li>
+				@endforeach
+			</ul>
 		</div>
 	</section>
 	<div class="title1">
