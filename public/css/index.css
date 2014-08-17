@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+/* ADD CHALKBOARD FONT */
 @font-face {
 	font-family: 'eraserregular';
 	src: url('../fonts/EraserRegular-webfont.eot');
@@ -11,85 +12,20 @@
 	font-style: normal;
 }
 
-body {
-	margin: 0;
-	padding: 0;
-	color: rgba(255, 255, 255, 0.9);
-	text-align: center;
+#bar-wall {
+	background-color: #FC6E51;	/* Light orange */
 }
 
-h1 {
+#title1 {
 	display: inline-block;
+	padding: 0px 0.3% 2px 0.3%;
 	margin-top: 50px;
-	color: white;
+	margin-bottom: 30px;
 	border-top: solid 5px white;
 	border-bottom: solid 5px white;
-	transform: skew(0, -5deg);
-}
 
-section {
-	background-color: #FC6E51;
-}
-
-.my-navbar {
-	margin-bottom: 0px;
-}
-
-.home {
-	background-color: #FC6E51;
-	border-color: #FC6E51;
-}
-
-.my-btn {
-	border-radius: 0px;
-	padding: 4px 30px;
-	background-color: rgba(255, 255, 255, 0.3);
 	color: white;
-}
-
-.my-btn:hover {
-	background-color: rgba(255, 255, 255, 0.9);
-	color: #FC6E51;
-}
-
-.logout {
-	background-color: rgba(178, 18, 18, 0.3);
-	border: rgba(255, 255, 255, 0.7) 1px solid;
-}
-
-.home-login {
-	opacity: 0.8;
-}
-
-input:focus {
-	background-color: rgba(255, 255, 255, 1) !important;
-}
-
-#loginForm {
-	margin: 25px 5px;
-}
-
-.header {
-	margin: 15px 10px;
-}
-
-.title1 h1 {
-	margin-bottom: 30px
-}
-
-.my-navbar {
-	margin-bottom: 0px;
-}
-
-#mainContent {
-	padding-top: 0px;
-}
-
-.my-form-control {
-	border: none;
-	max-width: 150px;
-	padding: 5px 10px;
-	color: #999;
+	transform: skew(0, -5deg);
 }
 
 #instructions {
@@ -104,6 +40,7 @@ input:focus {
 }
 
 .chalkboard {
+	display: none;
 	font-family: eraserregular;
 	background: url(../img/chalk_bg.png) repeat;
 	width: 25%;

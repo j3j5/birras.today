@@ -2,45 +2,76 @@
 
 body {
 	font-family: 'Open Sans', sans-serif;
-	color: rgba(255, 255, 255, 0.9);
-	background-color:  #E9573F;
-	text-align: center
-}
-
-#mainContent {
-	padding-top: 50px;
-}
-
-.content {
-	padding: 40px 15px;
+	color: rgba(255, 255, 255, 0.9);	/* White with 90% opacity */
+	background-color:  #E9573F;	/* Dark orange */
 	text-align: center;
+	color: rgba(255, 255, 255, 0.9);
 }
 
-#loginForm {
-	margin: 5px;
+/* NAVBAR STYLE */
+
+.my-navbar {
+	margin-bottom: 0px;
+	background-color: #FC6E51;
+	border-color: #FC6E51;
+}
+
+.my-navbar a {
+	color: rgba(255, 255, 255, 0.8) !important;
+}
+
+#navbar-container {
+	max-height: 30px;
+	padding: 10px 25px 0px 25px;
+}
+
+.header {
+	padding-top: 3px;
+}
+
+.my-navbar-brand {
+	font-size: 24px;
+	font-weight: 800;
+	padding: 0px;
+}
+
+#logo {
+	width: 35px;
+	height: 35px;
+	margin-right: 10px;
+}
+
+.my-btn {
+	border-radius: 0px;
+	padding: 4px 30px;
+	background-color: rgba(255, 255, 255, 0.3);
+	color: white;
+}
+
+.my-btn:hover {
+	background-color: rgba(255, 255, 255, 0.9);
+	color: #FC6E51;
+}
+
+.logout {
+	background-color: rgba(178, 18, 18, 0.3);
+	border: rgba(255, 255, 255, 0.7) 1px solid;
+}
+
+.home-login {
+	opacity: 0.8;
 }
 
 .no-box-sizing * {
 	box-sizing: content-box;
 }
 
-.navbar-brand {
-	color: white !important;
-	font-size: 15px;
-	font-weight: 600;
-}
-
-#logo {
-	width: 30px;
-	height: 30px;
-	margin-right: 5px;
-}
-
-a {
-	color: #350147;
-}
-
 #mainContent {
 	margin-top: -19px;
+}
+
+.content {
+	padding: 40px 15px;
+	text-align: center;
 }
 

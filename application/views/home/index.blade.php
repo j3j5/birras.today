@@ -1,7 +1,7 @@
 @layout('layout')
 
 @section('content')
-	<section>
+	<section id="bar-wall">
 		<div class="chalkboard chalkboard-left">
 			Hall of Fame
 			<ul>
@@ -42,11 +42,11 @@
 			</ul>
 		</div>
 	</section>
-	<div class="title1">
-		<h1>
+<!-- 	<div> -->
+		<h1 id="title1">
 			BIRRAS.TODAY
 		</h1>
-	</div>
+<!-- 	</div> -->
 	@if ( !empty($appointments) )
 		<h2>YES,</h2>
 		@foreach($appointments AS $app)

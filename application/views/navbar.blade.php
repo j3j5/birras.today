@@ -1,18 +1,27 @@
-<div class="navbar navbar-inverse home my-navbar" role="navigation">
-	<div id="container">
-		<div class="navbar-header header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="/"><img id="logo" src="/img/birrastoday.png">BIRRAS.TODAY</a>
+<div class="navbar navbar-default my-navbar" role="navigation">
+	<div id="navbar-container">
+		<div class="navbar-header">
+<!-- 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> -->
+<!-- 				<span class="sr-only">Toggle navigation</span> -->
+<!-- 				<span class="icon-bar"></span> -->
+<!-- 				<span class="icon-bar"></span> -->
+<!-- 				<span class="icon-bar"></span> -->
+<!-- 			</button> -->
+			<a class="navbar-brand my-navbar-brand" href="/"><img id="logo" src="/img/birrastoday.png"><span class="header">BIRRAS.TODAY</span></a>
 		</div>
-		<div class="navbar-collapse collapse">
-<!-- 				<ul class="nav navbar-nav"> -->
+		<div class="navbar navbar-right">
+				<ul class="nav navbar-nav ">
 <!-- 					<li class="active"><a href="#">Link</a></li> -->
-<!-- 					<li><a href="#">Link</a></li> -->
+					<li><a id="hall-of-fame" class="navbar-link" href="#">Hall of fame</a></li>
+					@if(Auth::guest())
+						<div class="form-group navbar-form navbar-right home-login">
+							<a href="/auth/login"><button type="submit" class="btn my-btn login">Sign in</button></a>
+						</div>
+					@else
+						<div class="form-group navbar-form navbar-right home-login">
+							<a href="/auth/logout"><button type="submit" class="btn my-btn logout">Sign out</button></a>
+						</div>
+					@endif
 <!-- 					<li><a href="#">Link</a></li> -->
 <!-- 					<li class="dropdown"> -->
 <!-- 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a> -->
@@ -26,29 +35,7 @@
 <!-- 							<li><a href="#">One more separated link</a></li> -->
 <!-- 						</ul> -->
 <!-- 					</li> -->
-<!-- 				</ul> -->
-			@if(Auth::guest())
-				{{ Form::open('auth/login', 'POST', array('id' => 'loginForm', 'class' => "navbar-form navbar-right", "role" => "form")) }}
-
-					<div class="form-group home-login">
-					{{ Form::text('username', Input::old('username'), array('class' => 'my-form-control', 'placeholder' => 'Username')) }}
-
-					</div>
-
-					<div class="form-group home-login">
-						{{ Form::password('password', array('class' => 'my-form-control', 'placeholder' => 'Password')) }}
-<!-- 					<input type="password" placeholder="Password" class="form-control"> -->
-					</div>
-					<!-- csrf token	 -->
-					{{ Form::token() }}
-
-					<button type="submit" class="btn my-btn">Sign in</button>
-				{{ Form::close() }}
-			@else
-				<div id="loginForm" class="form-group navbar-form navbar-right home-login">
-					<a href="/auth/logout"><button type="submit" class="btn my-btn logout">Sign out</button></a>
-				</div>
-			@endif
+				</ul>
 		</div><!--/.navbar-collapse -->
 	</div> <!-- end container -->
 </div><!-- end navbar -->
