@@ -40,7 +40,8 @@
 }
 
 .chalkboard {
-	display: none;
+	opacity: 0;
+	visibility: hidden;
 	font-family: eraserregular;
 	background: url(../img/chalk_bg.png) repeat;
 	width: 25%;
@@ -54,6 +55,11 @@
 	-webkit-border-image: url(../img/woodFrame.png) 17 stretch;
 	-moz-border-image: url(../img/woodFrame.png) 17 stretch;
 	border-image: url(../img/woodFrame.png) 17 stretch;
+
+	-moz-transition: opacity .45s linear, visibility .1s linear .5s;
+	-webkit-transition: opacity .25s linear, visibility .1s linear .5s;
+	-o-transition: opacity .25s linear, visibility .1s linear .5s;
+	transition: opacity .25s linear, visibility .1s linear .5s;
 }
 
 .chalkboard-right {
@@ -63,14 +69,6 @@
 .chalkboard-left {
 	left: 7%;
 }
-
-
-
-
-
-
-
-
 
 /* BEER GLASS ANIMATION */
 #action {
@@ -315,8 +313,16 @@
 
 /* LOGOS ON GLASS AND KEG  */
 
+.beer-brand-logo-keg {
+	padding-top: 69px
+}
+
+.beer-brand-logo-glass {
+	padding-top: 20px
+}
+
 .grolsch {
-	/* 	font-family: Parisienne; */
+	font-family: Parisienne;
 	font: 400 1.5em/1.1 Parisienne, cursive;
 	text-shadow: 0.0125em 0.0125em 0 #00a000,
 	0.025em 0.025em 0 #00a000,
@@ -327,13 +333,4 @@
 	text-align: center;
 	color: #00a000;
 	margin: 0px 0 3rem;
-	/* 	margin: 69px 0 3rem; */
-}
-
-#grolsch-keg {
-	padding-top: 69px
-}
-
-#grolsch-glass {
-	padding-top: 45px
 }

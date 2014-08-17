@@ -4,8 +4,9 @@ class Home_Controller extends Base_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		Asset::container('header')->style('grolsch_font', '/fonts.googleapis.com/css?family=Parisienne');
 		$this->filter('before', 'auth')->only(array('profile'));
+		Asset::container('header')->style('grolsch_font', '/fonts.googleapis.com/css?family=Parisienne');
+		Asset::container('footer')->add('index_js', 'js/index.js');
 	}
 
 	public function action_index()
@@ -23,7 +24,11 @@ class Home_Controller extends Base_Controller {
 		$top_places = array();
 		$db_places = Place::all();
 		foreach($db_places AS $key=>$place) {
-			$top_places[$key] = array('place' => $place->id, 'count' => $place->count_appointments(), 'place' => $place);
+			$top_places[$key] = array(
+				'place' => $place->id,
+				'count' => $this->get_display_count($place->count_appointments()) ,
+				'place' => $place
+			);
 		    $places[$key] = $place->id;
 			$count[$key] = $place->count_appointments();
 		}
@@ -37,7 +42,7 @@ class Home_Controller extends Base_Controller {
 		Asset::container('header')->add('piwik', 'js/piwik.js');
 		Asset::container('footer')->add('prefix-free', '/leaverou.github.io/prefixfree/prefixfree.min.js');
 
-		return View::make('home.index', array('appointments' => $view_appointments, 'top_places' => $top_places, 'show_logo_glass' => mt_rand(0,1) == 1));
+		return View::make('home.index', array('appointments' => $view_appointments, 'top_places' => $top_places, 'logo' => mt_rand(0,1) == 1));
 	}
 
 	public function action_profile() {
@@ -45,7 +50,16 @@ class Home_Controller extends Base_Controller {
 	}
 
 
+	private function get_display_count($count) {
+		$string_crossed = 'IIIII';
 
+		$left = $count % 5;
+		$string_left = '';
+		for($i=0; $i<$left; $i++) {
+			$string_left .= 'I';
+		}
+		return array('crossed' => $string_crossed, 'left'  => $string_left, 'count' => $count);
+	}
 
 	private function clean_appointment($app) {
 		$clean_app = (array)$app;

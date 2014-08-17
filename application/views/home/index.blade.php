@@ -2,20 +2,26 @@
 
 @section('content')
 	<section id="bar-wall">
-		<div class="chalkboard chalkboard-left">
-			Hall of Fame
-			<ul>
-				@foreach($top_places as $place)
-					<li>{{ $place['place']->name }} ({{ $place['count'] }})</li>
-				@endforeach
-			</ul>
-		</div>
+		@if(!empty($top_users))
+			<div class="chalkboard chalkboard-left">
+				Hall of Fame
+				<ul>
+					@foreach($top_users as $user)
+						<li></li>
+					@endforeach
+				</ul>
+			</div>
+		@endif
 		<div id="action" class="no-box-sizing">
 			<div id="keg">
 				<div id="pipe-handle"></div>
 				<div id="pipe"></div>
-				@if(!$show_logo_glass)
-					<div id="grolsch-keg" class="grolsch">Grolsch</div>
+				@if($logo)
+					<div class="beer-brand-logo-keg grolsch">Grolsch</div>
+				@else
+					<div class="beer-brand-logo-keg estrella">
+						@include('objects.estrella')
+					</div>
 				@endif
 				<div id="pipe-front"></div>
 			</div>
@@ -27,26 +33,41 @@
 					<div class="bottom-right"></div>
 				</div>
 				<div class="front-glass">
-				@if($show_logo_glass)
-					<div id="grolsch-glass" class="grolsch">Grolsch</div>
+				@if(!$logo)
+					<div class="beer-brand-logo-glass grolsch">
+						@include('objects.grolsch')
+					</div>
+				@else
+					<div class="beer-brand-logo-glass estrella">
+						@include('objects.estrella')
+					</div>
 				@endif
 				</div>
 			</div>
 		</div>
-		<div class="chalkboard chalkboard-right">
-			Hall of Fame
-			<ul>
-				@foreach($top_places as $place)
-					<li>{{ $place['place']->name }} ({{ $place['count'] }})</li>
-				@endforeach
-			</ul>
-		</div>
+		@if(!empty($top_places))
+			<div class="chalkboard chalkboard-right">
+				<h3>Hall of Fame</h3>
+				<h4>(Places)</h4>
+				<ul>
+					@foreach($top_places as $place)
+						<li title="{{ $place['count']['count'] }} times">{{ $place['place']->name }} →
+							@if(!empty($place['count']['crossed']))
+								<?php $crossed = (int)($place['count']['count'] / 5); ?>
+								@for($i=0; $i<$crossed; $i++)
+									<s>{{ $place['count']['crossed'] }}</s>
+								@endfor
+							@endif
+							{{ $place['count']['left'] }}
+						</li>
+					@endforeach
+				</ul>
+			</div>
+		@endif
 	</section>
-<!-- 	<div> -->
 		<h1 id="title1">
 			BIRRAS.TODAY
 		</h1>
-<!-- 	</div> -->
 	@if ( !empty($appointments) )
 		<h2>YES,</h2>
 		@foreach($appointments AS $app)
