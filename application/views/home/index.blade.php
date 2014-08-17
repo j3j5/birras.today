@@ -6,6 +6,9 @@
 			<div id="keg">
 				<div id="pipe-handle"></div>
 				<div id="pipe"></div>
+				@if(!$show_logo_glass)
+					<div id="grolsch-keg" class="grolsch">Grolsch</div>
+				@endif
 				<div id="pipe-front"></div>
 			</div>
 
@@ -15,7 +18,11 @@
 					<div class="top-right"></div>
 					<div class="bottom-right"></div>
 				</div>
-				<div class="front-glass"></div>
+				<div class="front-glass">
+				@if($show_logo_glass)
+					<div id="grolsch-glass" class="grolsch">Grolsch</div>
+				@endif
+				</div>
 			</div>
 		</div>
 	</section>

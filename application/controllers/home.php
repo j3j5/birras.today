@@ -4,6 +4,7 @@ class Home_Controller extends Base_Controller {
 
 	public function __construct() {
 		parent::__construct();
+		Asset::container('header')->style('grolsch_font', '/fonts.googleapis.com/css?family=Parisienne');
 		$this->filter('before', 'auth')->only(array('profile'));
 	}
 
@@ -27,14 +28,16 @@ class Home_Controller extends Base_Controller {
 			$count[$key] = $place->count_appointments();
 		}
 		// Sort the data with volume descending, edition ascending
-		// Add $data as the last parameter, to sort by the common key
+		// Add $top_places as the last parameter, to sort by the common key
 		array_multisort($count, SORT_DESC, $places, SORT_ASC, $top_places);
+		unset($count);
+		unset($places);
 
 		Asset::container('header')->add('index', 'css/index.css');
 		Asset::container('header')->add('piwik', 'js/piwik.js');
 		Asset::container('footer')->add('prefix-free', '/leaverou.github.io/prefixfree/prefixfree.min.js');
 
-		return View::make('home.index', array('appointments' => $view_appointments, 'top_places' => $top_places));
+		return View::make('home.index', array('appointments' => $view_appointments, 'top_places' => $top_places, 'show_logo_glass' => mt_rand(0,1) == 1));
 	}
 
 	public function action_profile() {

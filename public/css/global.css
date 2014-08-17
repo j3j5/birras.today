@@ -1,8 +1,10 @@
 @charset "UTF-8";
 
 body {
-/* 	padding-top: 31px; */
 	font-family: 'Open Sans', sans-serif;
+	color: rgba(255, 255, 255, 0.9);
+	background-color:  #E9573F;
+	text-align: center
 }
 
 #mainContent {

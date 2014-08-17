@@ -3,9 +3,7 @@
 body {
 	margin: 0;
 	padding: 0;
-	font-family: sans-serif;
-	color: white;
-	background-color:  #E9573F;
+	color: rgba(255, 255, 255, 0.9);
 	text-align: center;
 }
 
@@ -20,6 +18,10 @@ h1 {
 
 section {
 	background-color: #FC6E51;
+}
+
+.my-navbar {
+	margin-bottom: 0px;
 }
 
 .home {
@@ -50,7 +52,6 @@ section {
 
 input:focus {
 	background-color: rgba(255, 255, 255, 1) !important;
-/* 	opacity: 1; */
 }
 
 #loginForm {
@@ -329,4 +330,29 @@ input:focus {
 	to {
 		transform: skew(0, 3deg);
 	}
+}
+
+/* LOGOS ON GLASS AND KEG  */
+
+.grolsch {
+	/* 	font-family: Parisienne; */
+	font: 400 1.5em/1.1 Parisienne, cursive;
+	text-shadow: 0.0125em 0.0125em 0 #00a000,
+	0.025em 0.025em 0 #00a000,
+	0.0375em 0.0375em 0 #00a000,
+	0.05em 0.05em 0 #333,
+	0.0625em 0.0625em 0 #fff,
+	0.075em 0.075em 0 #ddd;
+	text-align: center;
+	color: #00a000;
+	margin: 0px 0 3rem;
+	/* 	margin: 69px 0 3rem; */
+}
+
+#grolsch-keg {
+	padding-top: 69px
+}
+
+#grolsch-glass {
+	padding-top: 45px
 }
