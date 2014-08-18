@@ -41,7 +41,6 @@
 
 .chalkboard {
 	opacity: 0;
-	visibility: hidden;
 	font-family: eraserregular;
 	background: url(../img/chalk_bg.png) repeat;
 	width: 25%;

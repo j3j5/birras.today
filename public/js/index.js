@@ -14,7 +14,6 @@ $(document).ready(function(){
 	var hall = $("#hall-of-fame"); //Add button ID
 
 	$(hall).click(function (e) {
-		$(".chalkboard").visibilityToggle();
 		$(".chalkboard").opacityToggle();
 // 		$(".chalkboard").toggle();
 	});
