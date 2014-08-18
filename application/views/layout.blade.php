@@ -20,12 +20,18 @@
 		<div id="mainContent">
 				<!-- check for flash notification message -->
 				@if(Session::has('flash_notice'))
-					<div id="flash_notice" class="alert alert-success">{{ Session::get('flash_notice') }}</div>
+					<div id="flash_notice" class="alert alert-success my-alert">
+						<button class="close-button close-button16 flash-close">@include('objects.close')</button>
+						{{ Session::get('flash_notice') }}
+					</div>
 				@endif
 
 				<!-- check for login error flash var -->
 				@if (Session::has('flash_error'))
-					<div id="flash_error" class="alert alert-danger">{{ Session::get('flash_error') }}</div>
+					<div id="flash_error" class="alert alert-dangermy-alert" >
+						<button class="close-button close-button16 flash-close">@include('objects.close')</button>
+						{{ Session::get('flash_error') }}
+						</div>
 				@endif
 
 				@yield('content')
