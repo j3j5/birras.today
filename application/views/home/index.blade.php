@@ -17,9 +17,11 @@
 				<div id="pipe-handle"></div>
 				<div id="pipe"></div>
 				@if($logo)
-					<div class="beer-brand-logo-keg grolsch">Grolsch</div>
+					<div id="grolsch" class="beer-brand-logo-keg grolsch">
+						@include('objects.grolsch')
+					</div>
 				@else
-					<div class="beer-brand-logo-keg estrella">
+					<div id="estrella" class="beer-brand-logo-keg">
 						@include('objects.estrella')
 					</div>
 				@endif

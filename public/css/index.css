@@ -314,8 +314,12 @@
 /* LOGOS ON GLASS AND KEG  */
 
 .beer-brand-logo-keg {
-	padding-top: 69px
+	padding-top: 69px;
 }
+
+/* #grolsch { */
+/* 	padding-top: 69px; */
+/* } */
 
 .beer-brand-logo-glass {
 	padding-top: 20px

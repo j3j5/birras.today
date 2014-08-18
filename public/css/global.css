@@ -11,7 +11,8 @@ body {
 /* NAVBAR STYLE */
 
 .my-navbar {
-	margin-bottom: 0px;
+	margin-bottom: 19px;
+	min-height: 30px;
 	background-color: #FC6E51;
 	border-color: #FC6E51;
 }

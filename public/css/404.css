@@ -1,17 +1,24 @@
 @charset "UTF-8";
 
+.my-navbar {
+	background-color: rgba(252, 110, 81, 0.6);
+	border-color: rgba(252, 110, 81, 0.6);
+}
+
 #notFound {
-	width: 100vw;
-	height: 100vh;
+	width: 99.3vw;
+	height: 102vh;
 	background: url(../img/404.jpg) no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	background-position: 0px 0px;
 	color: white;
 	text-align: center;
 	z-index: 1;
 }
+
 #notFound h1 {
 	font-size: 36px;
 	font-weight: 800;
