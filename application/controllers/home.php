@@ -24,6 +24,9 @@ class Home_Controller extends Base_Controller {
 		$top_places = array();
 		$db_places = Place::all();
 		foreach($db_places AS $key=>$place) {
+			if($place->count_appointments() == 0) {
+				continue;
+			}
 			$top_places[$key] = array(
 				'place' => $place->id,
 				'count' => $this->get_display_count($place->count_appointments()) ,

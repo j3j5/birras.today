@@ -177,6 +177,10 @@ class Twitter_Tasks {
 
 		$appointment->save();
 		cli_print("Event added to the DB from tweet: " . $new_app['tweet']);
+
+		// Clean cache
+		Cache::forget('count_app:' . $data['place_id']);	// Amount of events on this place
+
 		return $appointment;
 	}
 
