@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 .my-navbar {
-	background-color: rgba(252, 110, 81, 0.6);
-	border-color: rgba(252, 110, 81, 0.6);
+	background-color: rgba(252, 110, 81, 0.1);
+	border-color: rgba(252, 110, 81, 0.1);
 }
 
 #notFound {

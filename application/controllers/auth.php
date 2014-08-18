@@ -89,6 +89,8 @@ class Auth_Controller extends OneAuth\Auth\Controller {
 	 * @param   String      $e              Error Message
 	 */
 	protected function action_error($provider = null, $e = '') {
+		Asset::container('header')->add('404', "css/404.css");
+
 		return View::make('auth.errors', compact('provider', 'e'));
 	}
 

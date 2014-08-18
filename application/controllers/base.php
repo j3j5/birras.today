@@ -24,6 +24,7 @@ class Base_Controller extends Controller {
 	 */
 	public function __call($method, $parameters)
 	{
+		Asset::container('header')->add('404', "css/404.css");
 		return Response::error('404');
 	}
 

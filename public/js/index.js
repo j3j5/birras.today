@@ -11,11 +11,11 @@ jQuery.fn.opacityToggle = function() {
 };
 
 $(document).ready(function(){
-	var hall = $("#hall-of-fame"); //Add button ID
+	var hall = $("#hall-of-fame");
+	var chalkboard = $(".chalkboard");
 
 	$(hall).click(function (e) {
 		$(".chalkboard").opacityToggle();
-// 		$(".chalkboard").toggle();
 	});
 
 });
