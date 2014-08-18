@@ -11,16 +11,23 @@
 		</div>
 		<div class="nav navbar-right">
 				<ul class="nav navbar-nav ">
-<!-- 					<li class="active"><a href="#">Link</a></li> -->
-					<li><a id="hall-of-fame" class="navbar-link" href="#">Hall of fame</a></li>
+
+					<!-- 		Hall of fame is just included on the landing page			 -->
+					@if(URI::current() == '/')
+						<li><a id="hall-of-fame" class="navbar-link" href="#">Hall of fame</a></li>
+					@endif
 					@if(Auth::guest())
-					<li><div class="form-group navbar-form navbar-right home-login">
-							<a href="/auth/login"><button type="submit" class="btn my-btn login">Sign in</button></a>
-					</div></li>
+						<li>
+							<div class="form-group navbar-form navbar-right home-login">
+									<a href="/auth/login"><button type="submit" class="btn my-btn login">Sign in</button></a>
+							</div>
+						</li>
 					@else
-						<div class="form-group navbar-form navbar-right home-login">
-							<a href="/auth/logout"><button type="submit" class="btn my-btn logout">Sign out</button></a>
-						</div>
+						<li>
+							<div class="form-group navbar-form navbar-right home-login">
+								<a href="/auth/logout"><button type="submit" class="btn my-btn logout">Sign out</button></a>
+							</div>
+						</li>
 					@endif
 <!-- 					<li><a href="#">Link</a></li> -->
 <!-- 					<li class="dropdown"> -->
