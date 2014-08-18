@@ -93,6 +93,10 @@ body {
 	text-align: center;
 }
 
+.my-help {
+	color: rgba(255, 255, 255, 0.9);
+}
+
 input {
 	color: rgba(0, 0, 0, 0.6);
 }

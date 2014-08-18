@@ -17,7 +17,7 @@
 								{{ Form::text('place_name', Input::old('place_name'), array('class' => 'form-control')) }}
 
 							</div>
-							<p class="help-block">Add the name of the bar or place, you can add more aliases later.</p>
+							<p class="help-block my-help">Add the name of the bar or place, you can add more aliases later.</p>
 						</div>
 					</div>
 
@@ -31,7 +31,7 @@
 								{{ Form::text('description', Input::old('description'), array('class' => 'form-control')) }}
 
 							</div>
-							<p class="help-block">Add a description for it.</p>
+							<p class="help-block my-help">Add a description for it.</p>
 						</div>
 					</div>
 
@@ -45,7 +45,7 @@
 								{{ Form::text('avatar', Input::old('avatar'), array('class' => 'form-control')) }}
 
 							</div>
-							<p class="help-block">Add the URL of an image for the bar.</p>
+							<p class="help-block my-help">Add the URL of an image for the bar.</p>
 						</div>
 					</div>
 
@@ -59,7 +59,7 @@
 								{{ Form::text('address', Input::old('address'), array('class' => 'form-control')) }}
 
 							</div>
-							<p class="help-block">Add the address of the place.</p>
+							<p class="help-block my-help">Add the address of the place.</p>
 						</div>
 					</div>
 
@@ -73,7 +73,7 @@
 								{{ Form::text('website', Input::old('website'), array('class' => 'form-control')) }}
 
 							</div>
-							<p class="help-block">Does the bar have a website? Add it here!</p>
+							<p class="help-block my-help">Does the bar have a website? Add it here!</p>
 						</div>
 					</div>
 
@@ -86,7 +86,7 @@
 								<span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
 								{{ Form::text('map_link', Input::old('map_link'), array('class' => 'form-control')) }}
 							</div>
-							<p class="help-block">Add the link of a map, pointing to the place in case the address is too hard to find.</p>
+							<p class="help-block my-help">Add the link of a map, pointing to the place in case the address is too hard to find.</p>
 
 						</div>
 					</div>
@@ -108,7 +108,7 @@
 					<!-- Aliases -->
 					<div class="form-group">
 						<div class="col-xs-offset-2 col-xs-10">
-							{{ Form::button('Add alias', array('id' => 'addAlias', 'class' => "btn btn-sm btn-default")) }}
+							{{ Form::button('Add alias', array('id' => 'addAlias', 'class' => "btn btn-sm btn-default  my-btn")) }}
 
 						</div>
 						<div id="aliases">
@@ -121,7 +121,7 @@
 					<div class="form-group">
 						<!-- submit button -->
 						<div class="col-xs-offset-2 col-xs-10">
-							{{ Form::submit('Add/update', array('id' => 'storePlace', 'class' => 'btn btn-sm btn-primary')) }}
+							{{ Form::submit('Add/update', array('id' => 'storePlace', 'class' => 'btn btn-sm btn-primary my-btn')) }}
 
 						</div>
 					</div>
