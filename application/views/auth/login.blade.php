@@ -21,7 +21,7 @@
 	{{ Form::token() }}
 
 	<!-- submit button -->
-	<p>{{ Form::submit('Login') }}</p>
+	<p>{{ Form::submit('Login', array('class' => 'btn my-btn')) }}</p>
 
 	{{ Form::close() }}
 @endsection

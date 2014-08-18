@@ -40,7 +40,7 @@
 {{ Form::token() }}
 
 <!-- submit button -->
-<p>{{ Form::submit('Register') }}</p>
+<p>{{ Form::submit('Register', array('class' => 'btn my-btn')) }}</p>
 
 {{ Form::close() }}
 @endsection
