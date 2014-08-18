@@ -63,6 +63,8 @@ body {
 	opacity: 0.8;
 }
 
+/* GENERAL STYLE FOR THE CONTENT */
+
 .no-box-sizing * {
 	box-sizing: content-box;
 }
@@ -76,3 +78,10 @@ body {
 	text-align: center;
 }
 
+input {
+	color: rgba(0, 0, 0, 0.6);
+}
+
+input:focus {
+	color: rgba(0, 0, 0, 0.9);
+}
