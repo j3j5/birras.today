@@ -9,11 +9,8 @@ class Auth_Controller extends OneAuth\Auth\Controller {
 		$this->filter('before', 'guest')->except(array('logout'));
 		$this->filter('before', 'auth')->only(array('logout'));
 		$this->filter('before', 'csrf')->on('post');
-		Asset::container('header')->add('bootstrap_css', "/maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css");
-		Asset::container('header')->add('global', "css/global.css");
 
-		Asset::container('footer')->add('jquery', '/code.jquery.com/jquery-1.11.1.min.js');
-		Asset::container('footer')->add('bootstrap_js', "//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js");
+		Birras::include_basic_scripts();
 	}
 
 	/**
