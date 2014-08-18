@@ -16,6 +16,10 @@
 	background-color: #FC6E51;	/* Light orange */
 }
 
+#announcements {
+	background-color:  #E9573F;	/* Dark orange */
+}
+
 #title1 {
 	display: inline-block;
 	padding: 0px 0.3% 2px 0.3%;
@@ -316,24 +320,6 @@
 	padding-top: 69px;
 }
 
-/* #grolsch { */
-/* 	padding-top: 69px; */
-/* } */
-
 .beer-brand-logo-glass {
 	padding-top: 20px
-}
-
-.grolsch {
-	font-family: Parisienne;
-	font: 400 1.5em/1.1 Parisienne, cursive;
-	text-shadow: 0.0125em 0.0125em 0 #00a000,
-	0.025em 0.025em 0 #00a000,
-	0.0375em 0.0375em 0 #00a000,
-	0.05em 0.05em 0 #333,
-	0.0625em 0.0625em 0 #fff,
-	0.075em 0.075em 0 #ddd;
-	text-align: center;
-	color: #00a000;
-	margin: 0px 0 3rem;
 }

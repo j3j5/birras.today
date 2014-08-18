@@ -3,9 +3,8 @@
 body {
 	font-family: 'Open Sans', sans-serif;
 	color: rgba(255, 255, 255, 0.9);	/* White with 90% opacity */
-	background-color:  #E9573F;	/* Dark orange */
 	text-align: center;
-	color: rgba(255, 255, 255, 0.9);
+	background-color: #FC6E51;	/* Light orange */
 }
 
 /* NAVBAR STYLE */

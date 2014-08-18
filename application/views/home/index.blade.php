@@ -67,6 +67,7 @@
 			</div>
 		@endif
 	</section>
+	<section id="announcements">
 		<h1 id="title1">
 			BIRRAS.TODAY
 		</h1>

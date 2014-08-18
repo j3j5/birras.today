@@ -3,7 +3,7 @@
 @section('content')
 	<div class="container">
 		<h1>Add a new place</h1>
-		<div id="form" style="margin: 60px;">
+		<div id="form">
 			{{ Form::open('update/place', 'POST', array('class' => 'form-horizontal')) }}
 
 				<fieldset>
