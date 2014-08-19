@@ -170,7 +170,7 @@ class Twitter_Tasks {
 		$appointment->added_by = $new_app['added_by'];
 		$appointment->tweet= $new_app['tweet'];
 		$appointment->tweet_id = $new_app['tweet_id'];
-		$appointment->date = date('Y-m-d', $new_app['time']);
+		$appointment->appointment_date = date('Y-m-d', $new_app['time']);
 		if($this->twitter_task === 'DMs') {
 			$appointment->public = 0;
 		}
