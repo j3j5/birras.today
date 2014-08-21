@@ -9,7 +9,6 @@ BACKEND
 FRONTEND
 - Add pictures (if added) to the event (from twitter)
 - Add about and help page
-- Add 404 page
 - Add punchcard graph for day/time of events
 - Add ranking of users
-- Add ranking of places
+- Add weather icon to the navbar
