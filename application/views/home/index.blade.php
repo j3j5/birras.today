@@ -51,7 +51,7 @@
 			<div class="chalkboard chalkboard-right">
 				<h3>Hall of Fame</h3>
 				<h4>(Places)</h4>
-				<ul>
+				<ol>
 					@foreach($top_places as $place)
 						<li title="{{ $place['count']['count'] }} times">{{ $place['place']->name }} →
 							@if(!empty($place['count']['crossed']))
@@ -63,7 +63,7 @@
 							{{ $place['count']['left'] }}
 						</li>
 					@endforeach
-				</ul>
+				</ol>
 			</div>
 		@endif
 	</section>
@@ -123,6 +123,10 @@
 		<div id="instructions">Go to Skype and give your opinion or
 			<a href="https://twitter.com/intent/tweet?text={{ urlencode("@birrastoday #comingto NAME_OF_THE_PLACE #time TIME #map LINK_TO_THE_LOCATION "); }}" target="_blank">
 				send a tweet
-			</a> to <a href="https://twitter.com/birrastoday" target="_blank">the bot</a>!!</div>
+			</a>
+			to
+			<a href="https://twitter.com/birrastoday" target="_blank">the bot</a>!!
+		</div>
 	@endif
+	</section>
 @endsection
