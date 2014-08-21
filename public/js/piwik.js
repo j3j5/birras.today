@@ -1,6 +1,6 @@
 var _paq = _paq || [];
 _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
-	_paq.push(["setCookieDomain", "*.birras.today"]);
+_paq.push(["setCookieDomain", "*.birras.today"]);
 _paq.push(["setDomains", ["*.birras.today"]]);
 _paq.push(['trackPageView']);
 _paq.push(['enableLinkTracking']);

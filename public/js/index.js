@@ -11,11 +11,14 @@ jQuery.fn.opacityToggle = function() {
 };
 
 $(document).ready(function(){
-	var hall = $("#hall-of-fame");
-	var chalkboard = $(".chalkboard");
+	var $hall = $("#hall-of-fame"),
+		$chalkboard = $(".chalkboard");
 
-	$(hall).click(function (e) {
-		$(".chalkboard").opacityToggle();
+	$hall.click(function (e) {
+		$chalkboard.opacityToggle();
+		if(typeof(_paq) !== 'undefined') {
+			_paq.push(['trackEvent', 'NavBar', 'HallOfFame']);
+		}
 	});
 
 });
