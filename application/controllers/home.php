@@ -5,7 +5,6 @@ class Home_Controller extends Base_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->filter('before', 'auth')->only(array('profile'));
-		Asset::container('header')->style('grolsch_font', '/fonts.googleapis.com/css?family=Parisienne');
 		Asset::container('footer')->add('index_js', 'js/index.js');
 	}
 
