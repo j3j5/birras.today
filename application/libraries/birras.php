@@ -2,8 +2,8 @@
 
 class Birras {
 
-	private static $add_bar_pattern = "/\#(comingto|time) (.*?) \#(comingto|time) (.*)/i";
-	private static $add_bar_w_map_pattern = "/\#(comingto|time|map) (.*?) \#(comingto|time|map) (.*) \#(comingto|time|map) (.*)/i";
+	private static $add_bar_pattern = "/(\#comingto|\#time) (.*?) (\#comingto|\#time|around) (.*)/i";
+	private static $add_bar_w_map_pattern = "/(\#comingto|\#time|\#map) (.*?) (\#comingto|\#time|\#map|around) (.*) (\#comingto|\#time|\#map) (.*)/i";
 	private static $delete_event_pattern = "/\#(deleteevent) (.*)/i";
 
 	public static function include_basic_scripts() {
@@ -82,6 +82,7 @@ class Birras {
 						$error = 'Empty location.';
 					}
 					break;
+				case 'around':
 				case 'time':
 					$matches[$index+1] = self::clean_match($matches[$index+1]);
 					$timestamp = strtotime($matches[$index+1]);
