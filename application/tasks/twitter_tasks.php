@@ -257,6 +257,7 @@ class Twitter_Tasks {
 			$options = array(
 				'in_reply_to_status_id' => $data['message']['id'],
 			);
+			cli_print("Tweeting: " . $text . ' as an error reply.');
 			return $this->api->post_tweet($text, $options);
 		}
 	}

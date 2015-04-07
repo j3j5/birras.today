@@ -75,6 +75,7 @@ class Birras {
 		foreach($matches AS $index => $match) {
 			switch ($match) {
 				case 'comingto':
+					$matches[$index+1] = self::clean_match($matches[$index+1]);
 					if(!empty($matches[$index+1])) {
 						$bar_name = trim($matches[$index+1]);
 					} else {
@@ -82,6 +83,7 @@ class Birras {
 					}
 					break;
 				case 'time':
+					$matches[$index+1] = self::clean_match($matches[$index+1]);
 					$timestamp = strtotime($matches[$index+1]);
 					if(!empty($timestamp)) {
 						$time = $timestamp;
@@ -90,12 +92,14 @@ class Birras {
 					}
 					break;
 				case 'map':
+					$matches[$index+1] = self::clean_match($matches[$index+1]);
 					$map_link = filter_var($matches[$index+1], FILTER_VALIDATE_URL);
 					if(!is_string($map_link)) {
 						$map_link = '';
 					}
 					break;
 				case 'deleteevent':
+					$matches[$index+1] = self::clean_match($matches[$index+1]);
 					$place_to_delete = $matches[$index+1];
 					$place = Place::where_name(trim($place_to_delete))->first();
 					if(empty($place)) {
@@ -111,5 +115,12 @@ class Birras {
 		    return array('place_to_delete' => $place);
 		}
 		return array('error' => $error);
+	}
+
+	public static function clean_match($match) {
+		// Clean '#' from the time in case somebody gets confused, ehem, Rafa, ehem...
+		$match = str_replace('#', '', $match);
+		$match = trim($match);
+		return $match;
 	}
 }
