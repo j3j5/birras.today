@@ -132,7 +132,6 @@ class Twitter_Tasks {
 			}
 		} elseif(isset($data['error'])) {
 			cli_print('data error');
-			$data['message'] = $message;
 			$this->reply_w_error($data);
 		}
 	}
@@ -216,11 +215,13 @@ class Twitter_Tasks {
 			}
 			cli_print('You cannot send a DM w/o providing a $to_user var.');
 		} else {
+			$options = array();
 			if(isset($data['message']['id'])) {
 				$options = array(
 					'in_reply_to_status_id' => $data['message']['id'],
 				);
 			}
+			cli_print("Tweeting: " . $text . ' as an error reply.');
 			return $this->api->post_tweet($text, $options);
 		}
 	}
@@ -243,7 +244,7 @@ class Twitter_Tasks {
 		$options = array(
 			'in_reply_to_status_id' => $data['message']['id'],
 		);
-// 		cli_print("Tweeting: " . $text);
+		cli_print("Tweeting: " . $text);
 		return $this->api->post_tweet($text, $options);
 	}
 
@@ -272,6 +273,7 @@ class Twitter_Tasks {
 			$options = array(
 				'in_reply_to_status_id' => $data['message']['id'],
 			);
+			cli_print("Tweeting: " . $text );
 			return $this->api->post_tweet($text, $options);
 		}
 	}
