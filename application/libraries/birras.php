@@ -73,6 +73,7 @@ class Birras {
 	public static function extract_data_from_tweet($matches) {
 		$error = $bar_name = $time = $map_link = '';
 		foreach($matches AS $index => $match) {
+			$match = str_replace('#', '', $match);
 			switch ($match) {
 				case 'comingto':
 					$matches[$index+1] = self::clean_match($matches[$index+1]);
